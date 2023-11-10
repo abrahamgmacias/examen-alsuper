@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+const navegacionRouter = require('./routes/navegacion');
+
 // App instantiation
 const app = express();
 
@@ -10,8 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-app.get("/", (req, res) => {
-    res.send("Sample route");
-});
+app.use("/", navegacionRouter);
+
 
 module.exports = { app };
