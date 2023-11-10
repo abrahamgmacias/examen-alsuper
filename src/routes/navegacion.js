@@ -14,5 +14,10 @@ router.get("/about", async (req, res) => {
     });
 });
 
+router.get("/contact", async (req, res) => {
+    return res.status(200).send({
+        message: 'Ponte en contacto con nosotros en "contact@example.com."'        
+    });
+});
 
 module.exports = router;
