@@ -22,5 +22,23 @@ async function consultarUsuario(id) {
     return { success: true, usuario };
 }
 
+async function eliminarUsuario(id) {
+    let usuario;
+    try {
+        usuario = await usuarios.destroy({
+            where: { id }
+        });
 
-module.exports = { consultarUsuario }
+        if (!usuario) {
+            return { success: false, error: "No se encontró un usuario activo con esa id."}
+        }
+
+    } catch (error) {
+        return { success: false, error: "Eliminación fallida. Revise los parametros de consulta."}
+    }
+    
+    return { success: true };
+}
+
+
+module.exports = { consultarUsuario, eliminarUsuario }
