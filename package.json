@@ -7,8 +7,8 @@
     "start": "nodemon src/server.js ",
     "migrate": "npx sequelize-cli db:migrate",
     "undo-migrate": "npx sequelize-cli db:migrate:undo:all",
-    "seed": "tsc && sequelize-cli --options-path './.sequelizerc.dev' db:seed:all",
-    "undo-seed": "sequelize-cli --options-path './.sequelizerc.dev' db:seed:undo:all"
+    "seed": "npx sequelize-cli db:seed:all",
+    "undo-seed": "sequelize-cli --options-path './.sequelizerc' db:seed:undo:all"
   },
   "repository": {
     "type": "git",
