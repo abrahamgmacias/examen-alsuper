@@ -1,8 +1,4 @@
-const { usuarios } = require("../database/models/index");  
-const { Request, Response } = require("express");
-const { JwtPayload } = require("jsonwebtoken");
 const { validarSessionJWT } = require("../util/jwt");
-
 
 const revisarToken = (req, res, next) => {
     const tokenMessage = "Token de sesión inexistente o inválido.";
