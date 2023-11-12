@@ -1,4 +1,4 @@
-const { consultarUsuario, eliminarUsuario } = require('../controllers/usuarios');
+const { consultarUsuario, eliminarUsuario, crearUsuario } = require('../controllers/usuarios');
 const { revisarToken } = require('../middleware/token');
 const express = require('express');
 
@@ -24,6 +24,32 @@ router.get('/:id', async (req, res) => {
     return res.status(200).json(usuarioObject.usuario);
 });
 
+// Crear usuario en base a parametros --ignora validaciones de contraseña y correo
+// Las contraseñas no están encriptadas
+router.post('/crear', revisarToken, async (req, res) => {
+    const { nombre, segundo_nombre, apellido_paterno, apellido_materno, fecha_de_nacimiento, correo_electronico, contrasena } = req.body;
+    
+    // Valores not null
+    if (!nombre || !apellido_paterno || !fecha_de_nacimiento || !correo_electronico || !contrasena) {
+        return res.status(400).send({
+            message: "Faltan datos. Compruebe la solicitud."
+        });
+    }
+
+    const libroObject = await crearUsuario({ nombre, segundo_nombre, apellido_paterno, apellido_materno, fecha_de_nacimiento, correo_electronico, contrasena });
+
+    if (!libroObject.success) {
+        return res.status(500).send({
+            message: libroObject.error
+        });
+    }
+
+    return res.status(200).send({
+        message: "El usuario fue creado con éxito."
+    });
+});
+
+// Eliminar usuario por su id
 router.delete('/eliminar/:id', revisarToken, async (req, res) => {
     const { id } = req.params;
 
@@ -44,6 +70,7 @@ router.delete('/eliminar/:id', revisarToken, async (req, res) => {
         message: "El usuario fue eliminado con éxito."
     });
 });
+
 
 
 

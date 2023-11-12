@@ -40,5 +40,22 @@ async function eliminarUsuario(id) {
     return { success: true };
 }
 
+async function crearUsuario(userData) {
+    try {
+        await usuarios.create({
+            ...userData,
+            createdAt: new Date()
+            }
+        );
 
-module.exports = { consultarUsuario, eliminarUsuario }
+    } catch (error) {
+        return {
+            success: false, error: "No se pudo crear el usuario con éxito. Revise los datos."
+        }
+    }
+
+    return { success: true };
+}
+
+
+module.exports = { consultarUsuario, eliminarUsuario, crearUsuario }
