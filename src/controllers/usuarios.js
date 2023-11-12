@@ -1,0 +1,26 @@
+const { usuarios } = require("../database/models/index");
+
+async function consultarUsuario(id) {
+    let usuario; 
+    try {
+        usuario = await usuarios.findOne({
+            attributes: ["id", "nombre", "segundo_nombre", "apellido_paterno", "apellido_materno", "fecha_de_nacimiento"],
+            where: {
+                id,
+                deletedAt: null
+            }
+        });
+
+        if (!usuario) {
+            return { success: false, error: "No se encontró un usuario activo con ese id."}
+        }
+
+    } catch (error) {
+        return { success: false, error: "Consulta fallida. Revise los parametros de búsqueda."}
+    }
+
+    return { success: true, usuario };
+}
+
+
+module.exports = { consultarUsuario }
