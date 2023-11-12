@@ -10,7 +10,6 @@ async function crearAutor(autorData) {
         );
 
     } catch (error) {
-        console.log(error);
         return {
             success: false, error: "No se pudo crear el autor con éxito. Revise los datos."
         }
@@ -86,10 +85,10 @@ function agregarTotalLibros(autoresArray) {
 async function eliminarAutor(id) {
     let autor;
     try {
-        await autores.destroy({
+        autor = await autores.destroy({
             where: { id }
         });
-
+        
         if (!autor) {
             return { success: false, error: "No se encontró usuario con esa id."}
         }
