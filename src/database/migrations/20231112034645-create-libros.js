@@ -11,7 +11,8 @@ module.exports = {
       },
       nombre: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       fecha_de_publicacion: {
         type: Sequelize.STRING,
