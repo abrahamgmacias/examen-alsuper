@@ -42,7 +42,45 @@ async function consultarAutor(id) {
         return { success: false, error: "Consulta fallida. Revise los parametros de búsqueda."}
     }
 
+    agregarTotalLibros([autor]);
+
     return { success: true, autor };
 }
 
-module.exports = { crearAutor, consultarAutor };
+async function consultarTodosAutores() {
+    let autoresTotal; 
+    try {
+        autoresTotal = await autores.findAll({
+            attributes: ["id", "nombre", "segundo_nombre", "apellido_paterno", "apellido_materno", "fecha_de_nacimiento"],
+            include: [{
+                model: libros,
+                attributes: ["id", "nombre", "fecha_de_publicacion", "editorial"]
+            }]
+        });
+
+        if (!autoresTotal) {
+            return { success: false, error: "No se encontró un autor activo con ese id."}
+        }
+
+    } catch (error) {
+        return { success: false, error: "Consulta fallida. Revise los parametros de búsqueda."}
+    }
+
+    agregarTotalLibros(autoresTotal)
+
+
+    return { success: true, autores: autoresTotal};
+}
+
+// Agregar parametro de total de libros
+function agregarTotalLibros(autoresArray) {
+    autoresArray.map((autorObject) => {
+        const autorValues = autorObject.dataValues;
+        const libros = autorValues.libros;
+        autorValues.total_de_libros = libros.length;
+        
+    });
+}
+
+
+module.exports = { crearAutor, consultarAutor, consultarTodosAutores };
