@@ -6,7 +6,7 @@ const express = require('express');
 const router = express.Router();
 
 // Consulta a todos los autores, sus libros y la cantidad de libros
-router.get('/todos', async (req, res) => {
+router.get('/todos', revisarToken, async (req, res) => {
     const autoresObject = await consultarTodosAutores();
 
     if (!autoresObject.success) {
@@ -20,7 +20,7 @@ router.get('/todos', async (req, res) => {
 
 
 // Consultar autor y sus libros por su id 
-router.get('/:id', async (req, res) => {
+router.get('/:id', revisarToken, async (req, res) => {
     const { id } = req.params;
 
     // Validar id type

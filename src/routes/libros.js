@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 // Consultar un libro por su id
-router.get('/:id', async (req, res) => {
+router.get('/:id', revisarToken, async (req, res) => {
     const { id } = req.params;
 
     // Validar id type
