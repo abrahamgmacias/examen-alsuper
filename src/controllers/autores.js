@@ -1,5 +1,4 @@
-const { autores } = require("../database/models/index");
-
+const { autores, libros } = require("../database/models/index");
 
 // Consultar un autor por su id
 async function crearAutor(autorData) {
@@ -24,11 +23,15 @@ async function consultarAutor(id) {
     let autor; 
     try {
         autor = await autores.findOne({
-            attributes: ["nombre", "segundo_nombre", "apellido_paterno", "apellido_materno", "fecha_de_nacimiento"],
+            attributes: ["id", "nombre", "segundo_nombre", "apellido_paterno", "apellido_materno", "fecha_de_nacimiento"],
             where: {
                 id,
                 deletedAt: null
-            }
+            },
+            include: [{
+                model: libros,
+                attributes: ["id", "nombre", "fecha_de_publicacion", "editorial"]
+            }]
         });
 
         if (!autor) {
