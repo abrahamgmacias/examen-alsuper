@@ -26,16 +26,16 @@ router.get('/:id', async (req, res) => {
 
 // Crear un libro
 router.post('/crear', revisarToken, async (req, res) => {
-    const { nombre, fecha_de_publicacion, autor, editorial } = req.body;
+    const { nombre, fecha_de_publicacion, autor_id, editorial } = req.body;
 
     // Valores not null
-    if (!nombre || !autor) {
+    if (!nombre || !autor_id) {
         return res.status(400).send({
             message: "Faltan datos. Compruebe la solicitud."
         });
     }
 
-    const libroObject = await crearLibro({ nombre, fecha_de_publicacion, autor, editorial });
+    const libroObject = await crearLibro({ nombre, fecha_de_publicacion, autor_id, editorial });
 
     if (!libroObject.success) {
         return res.status(500).send({
