@@ -1,11 +1,14 @@
 const { crearNuevoLibro, eliminarLibro } = require('../controllers/libros');
+const { revisarToken } = require('../middleware/token');
 const express = require('express');
 
 const router = express.Router();
 
 // Crear un libro
-router.post('/crear', async (req, res) => {
+router.post('/crear', revisarToken, async (req, res) => {
     const { nombre, fecha_de_publicacion, autor, editorial } = req.body;
+
+    console.log(req.user);
 
     // Valores not null
     if (!nombre || !autor) {
