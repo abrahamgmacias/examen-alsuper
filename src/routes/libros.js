@@ -1,4 +1,4 @@
-const { crearNuevoLibro, eliminarLibro, consultarLibro } = require('../controllers/libros');
+const { crearLibro, eliminarLibro, consultarLibro } = require('../controllers/libros');
 const { revisarToken } = require('../middleware/token');
 const express = require('express');
 
@@ -35,7 +35,7 @@ router.post('/crear', revisarToken, async (req, res) => {
         });
     }
 
-    const libroObject = await crearNuevoLibro({ nombre, fecha_de_publicacion, autor, editorial });
+    const libroObject = await crearLibro({ nombre, fecha_de_publicacion, autor, editorial });
 
     if (!libroObject.success) {
         return res.status(500).send({

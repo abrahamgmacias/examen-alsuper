@@ -1,6 +1,6 @@
 const { libros } = require("../database/models/index");
 
-async function crearNuevoLibro(bookData) {
+async function crearLibro(bookData) {
     try {
         await libros.create({
             ...bookData,
@@ -52,4 +52,4 @@ async function consultarLibro(id) {
     return { success: true, libro };
 }
 
-module.exports = { crearNuevoLibro, eliminarLibro, consultarLibro };
+module.exports = { crearLibro, eliminarLibro, consultarLibro };
