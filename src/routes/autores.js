@@ -1,4 +1,4 @@
-const { crearAutor, consultarAutor, consultarTodosAutores } = require('../controllers/autores');
+const { crearAutor, consultarAutor, consultarTodosAutores, eliminarAutor } = require('../controllers/autores');
 const { revisarToken } = require('../middleware/token');
 
 const express = require('express');
@@ -63,6 +63,28 @@ router.post('/crear', revisarToken, async (req, res) => {
     });
 });
 
+
+// Paranoid delete autor por su id
+router.delete('/eliminar/:id', revisarToken, async (req, res) => {
+    const { id } = req.params;
+
+    // Validar id type
+    if (!id || Number.isNaN(parseInt(id))) {
+        return res.status(400).json({ message: "Id inexistente o inválido." });
+    }
+
+    const autorResult = await eliminarAutor(id);
+
+    if (!autorResult.success) {
+        return res.status(500).send({
+            message: autorResult.error
+        });
+    }
+
+    return res.status(200).send({
+        message: "El autor fue eliminado con éxito."
+    });
+});
 
 
 

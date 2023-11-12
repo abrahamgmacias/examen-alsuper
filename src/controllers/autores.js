@@ -82,5 +82,23 @@ function agregarTotalLibros(autoresArray) {
     });
 }
 
+// Paranoid delete autor por su id
+async function eliminarAutor(id) {
+    let autor;
+    try {
+        await autores.destroy({
+            where: { id }
+        });
 
-module.exports = { crearAutor, consultarAutor, consultarTodosAutores };
+        if (!autor) {
+            return { success: false, error: "No se encontró usuario con esa id."}
+        }
+
+    } catch (error) {
+        return { success: false, error: "Eliminación fallida. Revisar parametros de consulta."}
+    }
+    
+    return { success: true };
+}
+
+module.exports = { crearAutor, consultarAutor, consultarTodosAutores, eliminarAutor };
