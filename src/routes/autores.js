@@ -5,7 +5,7 @@ const express = require('express');
 
 const router = express.Router();
 
-
+// Consulta a todos los autores, sus libros y la cantidad de libros
 router.get('/todos', async (req, res) => {
     const autoresObject = await consultarTodosAutores();
 
