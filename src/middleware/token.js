@@ -1,7 +1,7 @@
 const { validarSessionJWT } = require("../util/jwt");
 
 const revisarToken = (req, res, next) => {
-    const tokenMessage = "Token de sesión inexistente o inválido.";
+    const tokenMessage = "Token de sesión inexistente o inválido. Pruebe iniciando sesión.";
     const token = req.headers.authorization;
 
     // Revisa si el token fue enviado en la consulta
