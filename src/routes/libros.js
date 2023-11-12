@@ -1,14 +1,32 @@
-const { crearNuevoLibro, eliminarLibro } = require('../controllers/libros');
+const { crearNuevoLibro, eliminarLibro, consultarLibro } = require('../controllers/libros');
 const { revisarToken } = require('../middleware/token');
 const express = require('express');
 
 const router = express.Router();
 
+// Consultar un libro por su id
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    // Validar id type
+    if (!id || Number.isNaN(parseInt(id))) {
+        return res.status(400).json({ message: "Id inexistente o inválido." });
+    }
+
+    const libroObject = await consultarLibro(id);
+
+    if (!libroObject.success) {
+        return res.status(500).send({
+            message: libroObject.error
+        });
+    }
+
+    return res.status(200).json(libroObject.libro);
+});
+
 // Crear un libro
 router.post('/crear', revisarToken, async (req, res) => {
     const { nombre, fecha_de_publicacion, autor, editorial } = req.body;
-
-    console.log(req.user);
 
     // Valores not null
     if (!nombre || !autor) {
