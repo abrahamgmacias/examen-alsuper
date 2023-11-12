@@ -10,17 +10,19 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      autores.hasMany(models.libros);
+      autores.hasMany(models.libros, { foreignKey: "autor_id"});
     }
   }
   autores.init({
     nombre: DataTypes.STRING,
+    segundo_nombre: DataTypes.STRING,
     apellido_paterno: DataTypes.STRING,
     apellido_materno: DataTypes.STRING,
     fecha_de_nacimiento: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'autores',
+    paranoid: true
   });
   return autores;
 };
