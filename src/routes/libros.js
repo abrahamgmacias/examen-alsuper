@@ -1,4 +1,4 @@
-const { crearNuevoLibro } = require('../controllers/libros');
+const { crearNuevoLibro, eliminarLibro } = require('../controllers/libros');
 const express = require('express');
 
 const router = express.Router();
@@ -24,7 +24,29 @@ router.post('/crear', async (req, res) => {
 
     return res.status(200).send({
         message: "El libro fue creado con éxito."
-    })
+    });
+});
+
+// Paranoid delete
+router.delete('/eliminar/:id', async (req, res) => {
+    const { id } = req.params;
+
+    // Validar id type
+    if (!id || Number.isNaN(parseInt(id))) {
+        return res.status(400).json({ message: "Missing or invalid id" });
+    }
+
+    const libroResult = await eliminarLibro(id);
+
+    if (!libroResult.success) {
+        return res.status(500).send({
+            message: libroResult.error
+        });
+    }
+
+    return res.status(200).send({
+        message: "El libro fue eliminado con éxito."
+    });
 });
 
 module.exports = router;

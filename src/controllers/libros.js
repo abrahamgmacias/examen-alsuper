@@ -17,4 +17,18 @@ async function crearNuevoLibro(bookData) {
     return { success: true };
 }
 
-module.exports = { crearNuevoLibro };
+async function eliminarLibro(id) {
+    try {
+        await libros.destroy({
+            where: { id }
+        });
+
+    } catch (error) {
+        return { success: false, error: "Eliminación fallida. No se encontró un libro activo con ese id."}
+    }
+    
+    return { success: true };
+}
+
+
+module.exports = { crearNuevoLibro, eliminarLibro };
