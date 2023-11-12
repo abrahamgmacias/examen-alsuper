@@ -1,6 +1,5 @@
 const { usuarios } = require("../database/models/index");
-
-console.log(usuarios);
+const { createSessionJWT } = require("../util/jwt");
 
 // La contraseñas no están encriptadas
 async function login(correo_electronico, contrasena) {
@@ -13,8 +12,12 @@ async function login(correo_electronico, contrasena) {
         return { success: false, token: null };
     }
 
-    // Token falso pre-JWT
-    const token = "PLACEHOLDER_TOKEN";
+    // Crear token de sesión
+    const token = createSessionJWT({
+        id: userData.dataValues.id,
+        name: userData.dataValues.name
+    });
+
     const { id, nombre, apellido_paterno } = userData;
 
     return { success: true, id, token, nombre, apellido_paterno };
