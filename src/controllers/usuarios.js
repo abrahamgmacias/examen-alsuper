@@ -1,5 +1,5 @@
 const { usuarios } = require("../database/models/index");
-const { createSessionJWT } = require("../util/jwt");
+const { crearSessionJWT, validarSessionJWT } = require("../util/jwt");
 
 // La contraseñas no están encriptadas
 async function login(correo_electronico, contrasena) {
@@ -13,7 +13,7 @@ async function login(correo_electronico, contrasena) {
     }
 
     // Crear token de sesión
-    const token = createSessionJWT({
+    const token = crearSessionJWT({
         id: userData.dataValues.id,
         name: userData.dataValues.name
     });
