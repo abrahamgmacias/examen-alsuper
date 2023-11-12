@@ -1,11 +1,25 @@
-const { crearAutor, consultarAutor } = require('../controllers/autores');
+const { crearAutor, consultarAutor, consultarTodosAutores } = require('../controllers/autores');
 const { revisarToken } = require('../middleware/token');
 
 const express = require('express');
 
 const router = express.Router();
 
-// Consultr autor y sus libros por su id 
+
+router.get('/todos', async (req, res) => {
+    const autoresObject = await consultarTodosAutores();
+
+    if (!autoresObject.success) {
+        return res.status(500).send({
+            message: autoresObject.error
+        });
+    }
+
+    return res.status(200).json(autoresObject.autores);
+});
+
+
+// Consultar autor y sus libros por su id 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
