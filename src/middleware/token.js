@@ -22,7 +22,6 @@ const revisarToken = (req, res, next) => {
         return res.status(401).json({ message: tokenMessage });
     }
 
-    req.user = tokenInfo.payload.id;
     next();
 }
 
