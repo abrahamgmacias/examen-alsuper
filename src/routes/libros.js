@@ -31,12 +31,12 @@ router.post('/crear', revisarToken, async (req, res) => {
 });
 
 // Paranoid delete
-router.delete('/eliminar/:id', async (req, res) => {
+router.delete('/eliminar/:id', revisarToken, async (req, res) => {
     const { id } = req.params;
 
     // Validar id type
     if (!id || Number.isNaN(parseInt(id))) {
-        return res.status(400).json({ message: "Missing or invalid id" });
+        return res.status(400).json({ message: "Id inexistente o inválido." });
     }
 
     const libroResult = await eliminarLibro(id);
