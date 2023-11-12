@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const navegacionRouter = require('./routes/navegacion');
+const usuariosRouter = require('./routes/usuarios');
 const autoresRouter = require('./routes/autores');
 const librosRouter = require('./routes/libros');
 const authRouter = require('./routes/auth');
@@ -19,5 +20,6 @@ app.use("/auth", authRouter);
 app.use("/", navegacionRouter);
 app.use("/libros", librosRouter);
 app.use("/autores", autoresRouter);
+app.use("/usuarios", usuariosRouter);
 
 module.exports = { app };
