@@ -16,15 +16,15 @@ router.get('/', revisarToken, async (req, res) => {
         });
     }
  
-    const libroObject = await consultarAutorPorNombre({ nombre, segundo_nombre, apellido_paterno, apellido_materno });
+    const autorObject = await consultarAutorPorNombre({ nombre, segundo_nombre, apellido_paterno, apellido_materno });
 
-    if (!libroObject.success) {
+    if (!autorObject.success) {
         return res.status(500).send({
-            message: libroObject.error
+            message: autorObject.error
         });
     }
 
-    return res.status(200).json(libroObject.libro);
+    return res.status(200).json(autorObject.autor);
 });
 
 // Consultar autor y sus libros por su id 
