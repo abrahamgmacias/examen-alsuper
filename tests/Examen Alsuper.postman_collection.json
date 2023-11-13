@@ -224,7 +224,7 @@
 			"name": "Autores",
 			"item": [
 				{
-					"name": "Consultar autor éxitoso",
+					"name": "Consultar autor éxitoso (id)",
 					"event": [
 						{
 							"listen": "test",
@@ -286,6 +286,85 @@
 							"path": [
 								"autores",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar autor éxitoso (nombre)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"La respuesta tiene las propiedades requeridas\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('nombre');\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData).to.have.property('segundo_nombre');\r",
+									"    pm.expect(jsonData).to.have.property('apellido_paterno');\r",
+									"    pm.expect(jsonData).to.have.property('apellido_materno');\r",
+									"    pm.expect(jsonData).to.have.property('total_de_libros');\r",
+									"    pm.expect(jsonData).to.have.property('libros');\r",
+									"    pm.expect(jsonData).to.have.property('fecha_de_nacimiento');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Propiedad total de libros debe ser 4.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('total_de_libros', 3);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Longitud de libros debe ser 3\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const libros = jsonData.libros;\r",
+									"\r",
+									"    pm.expect(libros).to.be.an('array');\r",
+									"    pm.expect(libros).to.have.lengthOf(3);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Albert\",\r\n    \"apellido_paterno\": \"Camus\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/autores",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores"
 							]
 						}
 					},
@@ -632,7 +711,7 @@
 			"name": "Libros",
 			"item": [
 				{
-					"name": "Consultar libro éxitoso",
+					"name": "Consultar libro éxitoso (id)",
 					"event": [
 						{
 							"listen": "test",
@@ -689,6 +768,68 @@
 							"path": [
 								"libros",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar libro éxitoso (nombre)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"La respuesta tiene las propiedades requeridas\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('fecha_de_publicacion');\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData).to.have.property('nombre');\r",
+									"    pm.expect(jsonData).to.have.property('editorial');\r",
+									"    pm.expect(jsonData).to.have.property('autor_id');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"La Peste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros"
 							]
 						}
 					},
@@ -1034,7 +1175,7 @@
 			"name": "Usuarios",
 			"item": [
 				{
-					"name": "Consultar usuario éxitoso",
+					"name": "Consultar usuario éxitoso (id)",
 					"event": [
 						{
 							"listen": "test",
@@ -1080,6 +1221,69 @@
 							"path": [
 								"usuarios",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar usuario éxitoso (nombre)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"La respuesta tiene las propiedades requeridas\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('fecha_de_nacimiento');\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData).to.have.property('nombre');\r",
+									"    pm.expect(jsonData).to.have.property('segundo_nombre');\r",
+									"    pm.expect(jsonData).to.have.property('apellido_paterno');\r",
+									"    pm.expect(jsonData).to.have.property('apellido_materno');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Abraham\",\r\n    \"apellido_paterno\": \"Gonzalez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/usuarios",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"usuarios"
 							]
 						}
 					},
