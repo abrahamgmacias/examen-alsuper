@@ -4,12 +4,12 @@
   "description": "examen de contratacion alsuper",
   "main": "index.js",
   "scripts": {
+    "build": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "start": "nodemon src/server.js ",
     "migrate": "npx sequelize-cli db:migrate",
     "undo-migrate": "npx sequelize-cli db:migrate:undo:all",
     "seed": "npx sequelize-cli db:seed:all",
-    "undo-seed": "sequelize-cli --options-path './.sequelizerc' db:seed:undo:all",
-    "full-migrate": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "undo-seed": "sequelize-cli --options-path './.sequelizerc' db:seed:undo:all"
   },
   "repository": {
     "type": "git",
