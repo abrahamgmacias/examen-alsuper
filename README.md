@@ -32,6 +32,8 @@ npm run start
 
 Descarga los tests en JSON e importalos a Postman. Con ellos podrás probar cada una de las funcionalidades. Ojo, algunas de ellas requieren de iniciar sesión así que usa primeramente 'Login éxitoso' de la colección Login para guardar el token de sesión.
 
+>> ¿No quieres probar los llamados uno por uno? Testea las funcionalidades en bulk al correr la colección. 
+
 ## Autores
 
 - **Abraham González** - [abrahamgmacias](https://github.com/abrahamgmacias)
