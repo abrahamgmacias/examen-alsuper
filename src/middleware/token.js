@@ -1,5 +1,6 @@
 const { validarSessionJWT } = require("../util/jwt");
 
+// Valida que la solicitud lleve un bearer token 
 const revisarToken = (req, res, next) => {
     const tokenMessage = "Token de sesión inexistente o inválido. Pruebe iniciando sesión.";
     const token = req.headers.authorization;
