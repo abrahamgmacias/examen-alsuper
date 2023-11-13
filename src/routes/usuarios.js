@@ -1,8 +1,30 @@
-const { consultarUsuario, eliminarUsuario, crearUsuario } = require('../controllers/usuarios');
+const { consultarUsuarioPorId, consultarUsuarioPorNombre, eliminarUsuario, crearUsuario } = require('../controllers/usuarios');
 const { revisarToken } = require('../middleware/token');
 const express = require('express');
 
 const router = express.Router();
+
+// Consultar usuario por su nombre
+router.get('/', revisarToken, async (req, res) => {
+    const { nombre, segundo_nombre, apellido_paterno, apellido_materno } = req.body;
+
+    // Validar nombre
+    if (!nombre) {
+        return res.status(400).send({
+            message: "Faltan datos. Compruebe la solicitud."
+        });
+    }
+
+    const usuarioObject = await consultarUsuarioPorNombre({ nombre, segundo_nombre, apellido_paterno, apellido_materno });
+
+    if (!usuarioObject.success) {
+        return res.status(500).send({
+            message: usuarioObject.error
+        });
+    }
+
+    return res.status(200).json(usuarioObject.usuario);
+});
 
 // Consultar usuario por su id
 router.get('/:id', revisarToken, async (req, res) => {
@@ -13,7 +35,7 @@ router.get('/:id', revisarToken, async (req, res) => {
         return res.status(400).json({ message: "Id inexistente o inválido." });
     }
 
-    const usuarioObject = await consultarUsuario(id);
+    const usuarioObject = await consultarUsuarioPorId(id);
 
     if (!usuarioObject.success) {
         return res.status(500).send({
