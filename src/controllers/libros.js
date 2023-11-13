@@ -30,7 +30,8 @@ async function eliminarLibro(id) {
     return { success: true };
 }
 
-async function consultarLibro(id) {
+// Consultar libro por id
+async function consultarLibroPorId(id) {
     let libro; 
     try {
         libro = await libros.findOne({
@@ -52,4 +53,27 @@ async function consultarLibro(id) {
     return { success: true, libro };
 }
 
-module.exports = { crearLibro, eliminarLibro, consultarLibro };
+// Consultar libro por nombre
+async function consultarLibroPorNombre(nombre) {
+    let libro; 
+    try {
+        libro = await libros.findOne({
+            attributes: ["id", "nombre", "fecha_de_publicacion", "autor_id", "editorial"],
+            where: {
+                nombre,
+                deletedAt: null
+            }
+        });
+
+        if (!libro) {
+            return { success: false, error: "No se encontró un libro activo con ese nombre."}
+        }
+
+    } catch (error) {
+        return { success: false, error: "Consulta fallida. Revise los parametros de búsqueda."}
+    }
+
+    return { success: true, libro };
+}
+
+module.exports = { crearLibro, eliminarLibro, consultarLibroPorId, consultarLibroPorNombre };

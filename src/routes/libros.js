@@ -1,8 +1,31 @@
-const { crearLibro, eliminarLibro, consultarLibro } = require('../controllers/libros');
+const { crearLibro, eliminarLibro, consultarLibroPorId, consultarLibroPorNombre } = require('../controllers/libros');
 const { revisarToken } = require('../middleware/token');
 const express = require('express');
 
 const router = express.Router();
+
+// Consultar libro por su nombre
+router.get('/', revisarToken, async (req, res) => {
+    const { nombre } = req.body;
+
+    // Validar nombre
+    if (!nombre) {
+        return res.status(400).send({
+            message: "Faltan datos. Compruebe la solicitud."
+        });
+    }
+
+    const libroObject = await consultarLibroPorNombre(nombre);
+
+    if (!libroObject.success) {
+        return res.status(500).send({
+            message: libroObject.error
+        });
+    }
+
+    return res.status(200).json(libroObject.libro);
+});
+
 
 // Consultar un libro por su id
 router.get('/:id', revisarToken, async (req, res) => {
