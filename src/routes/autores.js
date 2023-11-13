@@ -1,9 +1,51 @@
-const { crearAutor, consultarAutor, consultarTodosAutores, eliminarAutor } = require('../controllers/autores');
+const { crearAutor, consultarAutorPorId, consultarAutorPorNombre, consultarTodosAutores, eliminarAutor } = require('../controllers/autores');
 const { revisarToken } = require('../middleware/token');
 
 const express = require('express');
 
 const router = express.Router();
+
+// Consultar autor por su nombre
+router.get('/', revisarToken, async (req, res) => {
+    const { nombre, segundo_nombre, apellido_paterno, apellido_materno } = req.body;
+
+    // Validar nombre
+    if (!nombre) {
+        return res.status(400).send({
+            message: "Faltan datos. Compruebe la solicitud."
+        });
+    }
+ 
+    const libroObject = await consultarAutorPorNombre({ nombre, segundo_nombre, apellido_paterno, apellido_materno });
+
+    if (!libroObject.success) {
+        return res.status(500).send({
+            message: libroObject.error
+        });
+    }
+
+    return res.status(200).json(libroObject.libro);
+});
+
+// Consultar autor y sus libros por su id 
+router.get('/:id', revisarToken, async (req, res) => {
+    const { id } = req.params;
+
+    // Validar id type
+    if (!id || Number.isNaN(parseInt(id))) {
+        return res.status(400).json({ message: "Id inexistente o inválido." });
+    }
+
+    const autorObject = await consultarAutorPorId(id);
+
+    if (!autorObject.success) {
+        return res.status(500).send({
+            message: autorObject.error
+        });
+    }
+
+    return res.status(200).json(autorObject.autor);
+});
 
 // Consulta a todos los autores, sus libros y la cantidad de libros
 router.get('/todos', revisarToken, async (req, res) => {
@@ -16,27 +58,6 @@ router.get('/todos', revisarToken, async (req, res) => {
     }
 
     return res.status(200).json(autoresObject.autores);
-});
-
-
-// Consultar autor y sus libros por su id 
-router.get('/:id', revisarToken, async (req, res) => {
-    const { id } = req.params;
-
-    // Validar id type
-    if (!id || Number.isNaN(parseInt(id))) {
-        return res.status(400).json({ message: "Id inexistente o inválido." });
-    }
-
-    const autorObject = await consultarAutor(id);
-
-    if (!autorObject.success) {
-        return res.status(500).send({
-            message: autorObject.error
-        });
-    }
-
-    return res.status(200).json(autorObject.autor);
 });
 
 // Crear un autor

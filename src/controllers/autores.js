@@ -18,13 +18,50 @@ async function crearAutor(autorData) {
     return { success: true };
 }
 
-async function consultarAutor(id) {
+// Consultar autor con id
+async function consultarAutorPorId(id) {
     let autor; 
     try {
         autor = await autores.findOne({
             attributes: ["id", "nombre", "segundo_nombre", "apellido_paterno", "apellido_materno", "fecha_de_nacimiento"],
             where: {
                 id,
+                deletedAt: null
+            },
+            include: [{
+                model: libros,
+                attributes: ["id", "nombre", "fecha_de_publicacion", "editorial"]
+            }]
+        });
+
+        if (!autor) {
+            return { success: false, error: "No se encontró un autor activo con ese id."}
+        }
+
+    } catch (error) {
+        return { success: false, error: "Consulta fallida. Revise los parametros de búsqueda."}
+    }
+
+    agregarTotalLibros([autor]);
+
+    return { success: true, autor };
+}
+
+// Consultar autor por nombre
+async function consultarAutorPorNombre(autorData) {
+    // Crear condiciones de nombre
+    const nameOptions = nombreData.map((name) => {
+        if (name) {
+            { name }
+        }
+    });
+    
+    let autor; 
+    try {
+        autor = await autores.findOne({
+            attributes: ["id", "nombre", "segundo_nombre", "apellido_paterno", "apellido_materno", "fecha_de_nacimiento"],
+            where: {
+                ...nameOptions,
                 deletedAt: null
             },
             include: [{
@@ -100,4 +137,4 @@ async function eliminarAutor(id) {
     return { success: true };
 }
 
-module.exports = { crearAutor, consultarAutor, consultarTodosAutores, eliminarAutor };
+module.exports = { crearAutor, consultarAutorPorId, consultarAutorPorNombre, consultarTodosAutores, eliminarAutor };
