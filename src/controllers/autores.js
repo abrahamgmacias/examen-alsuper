@@ -50,11 +50,14 @@ async function consultarAutorPorId(id) {
 // Consultar autor por nombre
 async function consultarAutorPorNombre(autorData) {
     // Crear condiciones de nombre
-    const nameOptions = nombreData.map((name) => {
-        if (name) {
-            { name }
+    const nameOptions = Object.keys(autorData).reduce((acc, key) => {
+        if (autorData[key] !== undefined) {
+          acc[key] = autorData[key];
         }
-    });
+        return acc;
+    }, {});
+
+    console.log(nameOptions);
     
     let autor; 
     try {
