@@ -32,15 +32,11 @@ npm run start
 
 Descarga los tests en JSON e importalos a Postman. Con ellos podrás probar cada una de las funcionalidades. Ojo, algunas de ellas requieren de iniciar sesión así que usa primeramente 'Login éxitoso' de la colección Login para guardar el token de sesión.
 
-## Authors
+## Autores
 
 - **Abraham González** - [abrahamgmacias](https://github.com/abrahamgmacias)
 
-## License
-
-This project is licensed under the [MIT License](https://github.com/CanteraTalentoChihuahua/payroll-mind-backend/blob/main/LICENSE).
-
-## Made with
+## Hecho con
 
 - [express](https://expressjs.com)
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
