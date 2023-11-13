@@ -18,7 +18,20 @@
 							"script": {
 								"exec": [
 									"const jsonData = pm.response.json(); \r",
-									"pm.environment.set('jwtToken', jsonData.token);"
+									"pm.environment.set('jwtToken', jsonData.token);\r",
+									"\r",
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"La respuesta tiene las propiedades requeridas\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('token');\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData).to.have.property('nombre');\r",
+									"    pm.expect(jsonData).to.have.property('apellido_paterno');\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -51,6 +64,25 @@
 				},
 				{
 					"name": "Login fallido (wrong pass)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'Credenciales no válidas.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'Credenciales no válidas.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -83,6 +115,25 @@
 			"item": [
 				{
 					"name": "Página de inicio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es '¡Hola! Esta es la página de inicio.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', '¡Hola! Esta es la página de inicio.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -97,6 +148,25 @@
 				},
 				{
 					"name": "Página de contacto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'Ponte en contacto con nosotros en 'contact@example.com.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'Ponte en contacto con nosotros en \\\"contact@example.com.\\\"');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -114,6 +184,25 @@
 				},
 				{
 					"name": "Página de about",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'Bienvenido a la página 'Acerca de nosotros'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', \"Bienvenido a la página 'Acerca de nosotros'.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -132,10 +221,50 @@
 			]
 		},
 		{
-			"name": "Libros",
+			"name": "Autores",
 			"item": [
 				{
-					"name": "Crear libro éxitoso",
+					"name": "Consultar autor éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"La respuesta tiene las propiedades requeridas\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('nombre');\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData).to.have.property('segundo_nombre');\r",
+									"    pm.expect(jsonData).to.have.property('apellido_paterno');\r",
+									"    pm.expect(jsonData).to.have.property('apellido_materno');\r",
+									"    pm.expect(jsonData).to.have.property('total_de_libros');\r",
+									"    pm.expect(jsonData).to.have.property('libros');\r",
+									"    pm.expect(jsonData).to.have.property('fecha_de_nacimiento');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Propiedad total de libros debe ser 4.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('total_de_libros', 3);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Longitud de libros debe ser 3\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const libros = jsonData.libros;\r",
+									"\r",
+									"    pm.expect(libros).to.be.an('array');\r",
+									"    pm.expect(libros).to.have.lengthOf(3);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -147,119 +276,15 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"100 Años de Soledad\",\r\n    \"fecha_de_publicacion\": \"May 1967\",\r\n    \"autor_id\": 1,\r\n    \"editorial\": \"Alfaguara\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{alsuperURL}}/libros/crear",
+							"raw": "{{alsuperURL}}/autores/1",
 							"host": [
 								"{{alsuperURL}}"
 							],
 							"path": [
-								"libros",
-								"crear"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Crear libro fallido (miss data)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwtToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"100 Años de Soledad\",\r\n    \"fecha_de_publicacion\": \"May 1967\",\r\n    \"editorial\": \"Alfaguara\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{alsuperURL}}/libros/crear",
-							"host": [
-								"{{alsuperURL}}"
-							],
-							"path": [
-								"libros",
-								"crear"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Crear libro fallido (miss token)",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"100 Años de Soledad\",\r\n    \"fecha_de_publicacion\": \"May 1967\",\r\n    \"editorial\": \"Alfaguara\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{alsuperURL}}/libros/crear",
-							"host": [
-								"{{alsuperURL}}"
-							],
-							"path": [
-								"libros",
-								"crear"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Eliminar libro éxitoso",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "text"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{alsuperURL}}/libros/eliminar/1",
-							"host": [
-								"{{alsuperURL}}"
-							],
-							"path": [
-								"libros",
-								"eliminar",
+								"autores",
 								"1"
 							]
 						}
@@ -267,7 +292,247 @@
 					"response": []
 				},
 				{
-					"name": "Eliminar libro fallido",
+					"name": "Consultar autor fallido (inexitente)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'No se encontró un autor activo con ese id.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'No se encontró un autor activo con ese id.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/autores/10",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar autores todos éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"La respuesta tiene las propiedades requeridas\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData[0]).to.have.property('nombre');\r",
+									"    pm.expect(jsonData[0]).to.have.property('id');\r",
+									"    pm.expect(jsonData[0]).to.have.property('segundo_nombre');\r",
+									"    pm.expect(jsonData[0]).to.have.property('apellido_paterno');\r",
+									"    pm.expect(jsonData[0]).to.have.property('apellido_materno');\r",
+									"    pm.expect(jsonData[0]).to.have.property('total_de_libros');\r",
+									"    pm.expect(jsonData[0]).to.have.property('libros');\r",
+									"    pm.expect(jsonData[0]).to.have.property('fecha_de_nacimiento');\r",
+									"});\r",
+									"\r",
+									"// Sin crear otros\r",
+									"pm.test(\"Longitud de autores debe ser 2\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.be.an('array');\r",
+									"    pm.expect(jsonData).to.have.lengthOf(2);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/autores/todos",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear autor éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'El autor fue creado con éxito.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'El autor fue creado con éxito.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Gabriel\",\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/autores/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear autor fallido (miss data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'Faltan datos. Compruebe la solicitud.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'Faltan datos. Compruebe la solicitud.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/autores/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar autor éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'El autor fue eliminado con éxito.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'El autor fue eliminado con éxito.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -283,29 +548,114 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"nombre\": \"Gabriel\",\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
 							"options": {
 								"raw": {
-									"language": "text"
+									"language": "json"
 								}
 							}
 						},
 						"url": {
-							"raw": "{{alsuperURL}}/libros/eliminar/a",
+							"raw": "{{alsuperURL}}/autores/eliminar/3",
 							"host": [
 								"{{alsuperURL}}"
 							],
 							"path": [
-								"libros",
+								"autores",
 								"eliminar",
-								"a"
+								"3"
 							]
 						}
 					},
 					"response": []
 				},
 				{
+					"name": "Eliminar autor fallido (inexistente)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es '¡No se encontró un usuario activo con esa id.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'No se encontró usuario con esa id.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Gabriel\",\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/autores/eliminar/10",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"eliminar",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Libros",
+			"item": [
+				{
 					"name": "Consultar libro éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"La respuesta tiene las propiedades requeridas\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('fecha_de_publicacion');\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData).to.have.property('nombre');\r",
+									"    pm.expect(jsonData).to.have.property('editorial');\r",
+									"    pm.expect(jsonData).to.have.property('autor_id');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -345,7 +695,26 @@
 					"response": []
 				},
 				{
-					"name": "Consultar libro fallido (when deleted)",
+					"name": "Consultar libro fallido (inexistente)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'No se encontró un libro activo con ese id.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'No se encontró un libro activo con ese id.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -372,13 +741,288 @@
 							}
 						},
 						"url": {
-							"raw": "{{alsuperURL}}/libros/1",
+							"raw": "{{alsuperURL}}/libros/10",
 							"host": [
 								"{{alsuperURL}}"
 							],
 							"path": [
 								"libros",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear libro éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'El libro fue creado con éxito.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'El libro fue creado con éxito.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"100 Años de Soledad\",\r\n    \"fecha_de_publicacion\": \"May 1967\",\r\n    \"autor_id\": 1,\r\n    \"editorial\": \"Alfaguara\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear libro fallido (miss data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'Faltan datos. Compruebe la solicitud.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'Faltan datos. Compruebe la solicitud.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"100 Años de Soledad\",\r\n    \"fecha_de_publicacion\": \"May 1967\",\r\n    \"editorial\": \"Alfaguara\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear libro fallido (miss token)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'Token de sesión inexistente o inválido. Pruebe iniciando sesión.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'Token de sesión inexistente o inválido. Pruebe iniciando sesión.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"100 Años de Soledad\",\r\n    \"fecha_de_publicacion\": \"May 1967\",\r\n    \"editorial\": \"Alfaguara\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar libro éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'El libro fue eliminado con éxito.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'El libro fue eliminado con éxito.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/eliminar/1",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"eliminar",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar libro fallido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'Id inexistente o inválido.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'Id inexistente o inválido.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/eliminar/a",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"eliminar",
+								"a"
 							]
 						}
 					},
@@ -391,6 +1035,30 @@
 			"item": [
 				{
 					"name": "Consultar usuario éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"La respuesta tiene las propiedades requeridas\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('fecha_de_nacimiento');\r",
+									"    pm.expect(jsonData).to.have.property('id');\r",
+									"    pm.expect(jsonData).to.have.property('nombre');\r",
+									"    pm.expect(jsonData).to.have.property('segundo_nombre');\r",
+									"    pm.expect(jsonData).to.have.property('apellido_paterno');\r",
+									"    pm.expect(jsonData).to.have.property('apellido_materno');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -419,6 +1087,25 @@
 				},
 				{
 					"name": "Consultar usuario fallido (inexistente)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'No se encontró un usuario activo con ese id.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'No se encontró un usuario activo con ese id.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -446,65 +1133,26 @@
 					"response": []
 				},
 				{
-					"name": "Eliminar usuario éxitoso",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwtToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{alsuperURL}}/usuarios/eliminar/3",
-							"host": [
-								"{{alsuperURL}}"
-							],
-							"path": [
-								"usuarios",
-								"eliminar",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Eliminar usuario fallido (inexistente)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwtToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{alsuperURL}}/usuarios/eliminar/10",
-							"host": [
-								"{{alsuperURL}}"
-							],
-							"path": [
-								"usuarios",
-								"eliminar",
-								"10"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Crear usuario éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'El usuario fue creado con éxito.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'El usuario fue creado con éxito.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -542,6 +1190,25 @@
 				},
 				{
 					"name": "Crear usuario fallido (miss data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'Faltan datos. Compruebe la solicitud.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'Faltan datos. Compruebe la solicitud.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -576,51 +1243,28 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Autores",
-			"item": [
-				{
-					"name": "Crear autor éxitoso",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwtToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Gabriel\",\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{alsuperURL}}/autores/crear",
-							"host": [
-								"{{alsuperURL}}"
-							],
-							"path": [
-								"autores",
-								"crear"
-							]
-						}
-					},
-					"response": []
 				},
 				{
-					"name": "Eliminar autor éxitoso",
+					"name": "Eliminar usuario éxitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es 'El usuario fue eliminado con éxito.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'El usuario fue eliminado con éxito.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -634,22 +1278,13 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Gabriel\",\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{alsuperURL}}/autores/eliminar/3",
+							"raw": "{{alsuperURL}}/usuarios/eliminar/3",
 							"host": [
 								"{{alsuperURL}}"
 							],
 							"path": [
-								"autores",
+								"usuarios",
 								"eliminar",
 								"3"
 							]
@@ -658,7 +1293,26 @@
 					"response": []
 				},
 				{
-					"name": "Eliminar autor fallido (inexistente)",
+					"name": "Eliminar usuario fallido (inexistente)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Código de estatus es 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de respuesta es '¡No se encontró un usuario activo con esa id.'\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData).to.have.property('message', 'No se encontró un usuario activo con esa id.');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -672,108 +1326,15 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Gabriel\",\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{alsuperURL}}/autores/eliminar/10",
+							"raw": "{{alsuperURL}}/usuarios/eliminar/10",
 							"host": [
 								"{{alsuperURL}}"
 							],
 							"path": [
-								"autores",
+								"usuarios",
 								"eliminar",
 								"10"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Consultar autor éxitoso",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwtToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{alsuperURL}}/autores/1",
-							"host": [
-								"{{alsuperURL}}"
-							],
-							"path": [
-								"autores",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Consultar autor fallido (inexitente)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwtToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{alsuperURL}}/autores/10",
-							"host": [
-								"{{alsuperURL}}"
-							],
-							"path": [
-								"autores",
-								"10"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Consultar autores todos éxitoso",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwtToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{alsuperURL}}/autores/todos",
-							"host": [
-								"{{alsuperURL}}"
-							],
-							"path": [
-								"autores",
-								"todos"
 							]
 						}
 					},
