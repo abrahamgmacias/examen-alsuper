@@ -34,7 +34,7 @@ async function consultarLibro(id) {
     let libro; 
     try {
         libro = await libros.findOne({
-            attributes: ["id", "nombre", "fecha_de_publicacion", "autor", "editorial"],
+            attributes: ["id", "nombre", "fecha_de_publicacion", "autor_id", "editorial"],
             where: {
                 id,
                 deletedAt: null
