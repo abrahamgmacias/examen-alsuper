@@ -1,0 +1,785 @@
+{
+	"info": {
+		"_postman_id": "0c1485ba-050f-4411-910c-4f41f3d4eec7",
+		"name": "Examen Alsuper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21824774",
+		"_collection_link": "https://galactic-meadow-489469.postman.co/workspace/Payroll-MIND~a24a3b5e-e997-4256-8ef3-b08356f35e39/collection/21824774-0c1485ba-050f-4411-910c-4f41f3d4eec7?action=share&source=collection_link&creator=21824774"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login exitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json(); \r",
+									"pm.environment.set('jwtToken', jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"abrahamgonzalez@alsuper.com\",\r\n    \"contrasena\": \"contrasena\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/auth/login",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login fallido (wrong pass)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"abrahamgonzalez@alsuper.com\",\r\n    \"contrasena\": \"contrasena3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/auth/login",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Navegación",
+			"item": [
+				{
+					"name": "Página de inicio",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}",
+							"host": [
+								"{{alsuperURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Página de contacto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/contact",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"contact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Página de about",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/about",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"about"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Libros",
+			"item": [
+				{
+					"name": "Crear libro éxitoso",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"100 Años de Soledad\",\r\n    \"fecha_de_publicacion\": \"May 1967\",\r\n    \"autor_id\": 1,\r\n    \"editorial\": \"Alfaguara\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear libro fallido (miss data)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"100 Años de Soledad\",\r\n    \"fecha_de_publicacion\": \"May 1967\",\r\n    \"editorial\": \"Alfaguara\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear libro fallido (miss token)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"100 Años de Soledad\",\r\n    \"fecha_de_publicacion\": \"May 1967\",\r\n    \"editorial\": \"Alfaguara\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar libro éxitoso",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/eliminar/1",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"eliminar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar libro fallido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/eliminar/a",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"eliminar",
+								"a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar libro éxitoso",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/2",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar libro fallido (when deleted)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/libros/1",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"libros",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Consultar usuario éxitoso",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/usuarios/1",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar usuario fallido (inexistente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/usuarios/4",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"usuarios",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar usuario éxitoso",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/usuarios/eliminar/3",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"usuarios",
+								"eliminar",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar usuario fallido (inexistente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/usuarios/eliminar/10",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"usuarios",
+								"eliminar",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear usuario éxitoso",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"apellido_paterno\": \"Perez\",\r\n    \"fecha_de_nacimiento\": \"1999-11-02\",\r\n    \"correo_electronico\": \"juanperez@alsuper.com\",\r\n    \"contrasena\": \"contrasena_secreta\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/usuarios/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"usuarios",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear usuario fallido (miss data)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"apellido_paterno\": \"Perez\",\r\n    \"fecha_de_nacimiento\": \"1999-11-02\",\r\n    \"correo_electronico\": \"juanperez@alsuper.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/usuarios/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"usuarios",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autores",
+			"item": [
+				{
+					"name": "Crear autor éxitoso",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Gabriel\",\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/autores/crear",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"crear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar autor éxitoso",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Gabriel\",\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/autores/eliminar/3",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"eliminar",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar autor fallido (inexistente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Gabriel\",\r\n    \"apellido_paterno\": \"García\",\r\n    \"apellido_materno\": \"Márquez\",\r\n    \"fecha_de_nacimiento\": \"1927-03-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{alsuperURL}}/autores/eliminar/10",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"eliminar",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar autor éxitoso",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/autores/1",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar autor fallido (inexitente)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/autores/10",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar autores todos éxitoso",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{alsuperURL}}/autores/todos",
+							"host": [
+								"{{alsuperURL}}"
+							],
+							"path": [
+								"autores",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
