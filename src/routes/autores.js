@@ -27,6 +27,21 @@ router.get('/', revisarToken, async (req, res) => {
     return res.status(200).json(autorObject.autor);
 });
 
+// Consulta a todos los autores, sus libros y la cantidad de libros
+router.get('/todos', revisarToken, async (req, res) => {
+    const autoresObject = await consultarTodosAutores();
+
+    console.log("shit")
+
+    if (!autoresObject.success) {
+        return res.status(500).send({
+            message: autoresObject.error
+        });
+    }
+
+    return res.status(200).json(autoresObject.autores);
+});
+
 // Consultar autor y sus libros por su id 
 router.get('/:id', revisarToken, async (req, res) => {
     const { id } = req.params;
@@ -45,19 +60,6 @@ router.get('/:id', revisarToken, async (req, res) => {
     }
 
     return res.status(200).json(autorObject.autor);
-});
-
-// Consulta a todos los autores, sus libros y la cantidad de libros
-router.get('/todos', revisarToken, async (req, res) => {
-    const autoresObject = await consultarTodosAutores();
-
-    if (!autoresObject.success) {
-        return res.status(500).send({
-            message: autoresObject.error
-        });
-    }
-
-    return res.status(200).json(autoresObject.autores);
 });
 
 // Crear un autor
