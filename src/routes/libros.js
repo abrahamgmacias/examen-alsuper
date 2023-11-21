@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 // Consultar libro por su nombre
-router.get('/', revisarToken, async (req, res) => {
+router.post('/', revisarToken, async (req, res) => {
     const { nombre } = req.body;
 
     // Validar nombre

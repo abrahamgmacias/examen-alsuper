@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 // Consultar usuario por su nombre
-router.get('/', revisarToken, async (req, res) => {
+router.post('/', revisarToken, async (req, res) => {
     const { nombre, segundo_nombre, apellido_paterno, apellido_materno } = req.body;
 
     // Validar nombre
