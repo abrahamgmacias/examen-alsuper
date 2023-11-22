@@ -1,6 +1,5 @@
 import { crearAutor, consultarAutorPorId, consultarAutorPorNombre, consultarTodosAutores, eliminarAutor } from '../controllers/autores';
-const { revisarToken } = require('../middleware/token');
-
+import revisarToken from '../middleware/token';
 import express from "express";
 
 const router = express.Router();
