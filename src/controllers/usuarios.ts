@@ -1,7 +1,7 @@
-const { usuarios } = require("../database/models/index");
+import usuarios from "../database/models/index";
 
 // Consultar usuario por id
-async function consultarUsuarioPorId(id) {
+export async function consultarUsuarioPorId(id) {
     let usuario; 
     try {
         usuario = await usuarios.findOne({
@@ -24,7 +24,7 @@ async function consultarUsuarioPorId(id) {
 }
 
 // Consultar usuario por nombre
-async function consultarUsuarioPorNombre(nombreData) {
+export async function consultarUsuarioPorNombre(nombreData) {
     // Crear condiciones de nombres
     const nameOptions = Object.keys(nombreData).reduce((acc, key) => {
         if (nombreData[key] !== undefined) {
@@ -54,7 +54,7 @@ async function consultarUsuarioPorNombre(nombreData) {
     return { success: true, usuario };
 }
 
-async function eliminarUsuario(id) {
+export async function eliminarUsuario(id) {
     let usuario;
     try {
         usuario = await usuarios.destroy({
@@ -72,7 +72,7 @@ async function eliminarUsuario(id) {
     return { success: true };
 }
 
-async function crearUsuario(userData) {
+export async function crearUsuario(userData) {
     try {
         await usuarios.create({
             ...userData,
@@ -88,6 +88,3 @@ async function crearUsuario(userData) {
 
     return { success: true };
 }
-
-
-module.exports = { consultarUsuarioPorNombre, consultarUsuarioPorId, eliminarUsuario, crearUsuario }

@@ -1,7 +1,7 @@
 const { crearAutor, consultarAutorPorId, consultarAutorPorNombre, consultarTodosAutores, eliminarAutor } = require('../controllers/autores');
 const { revisarToken } = require('../middleware/token');
 
-const express = require('express');
+import express from "express";
 
 const router = express.Router();
 

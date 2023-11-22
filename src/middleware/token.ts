@@ -1,4 +1,4 @@
-const { validarSessionJWT } = require("../util/jwt");
+import validarSessionJWT from "../util/jwt";
 
 // Valida que la solicitud lleve un bearer token 
 const revisarToken = (req, res, next) => {
@@ -7,12 +7,12 @@ const revisarToken = (req, res, next) => {
 
     // Revisa si el token fue enviado en la consulta
     if (!token || !token.startsWith("Bearer")) {
-        return res.status(401).json({
+        return res.status(401).jso({
             message: tokenMessage
         });
     }
 
-    // Extraer el token
+    // Extraer el tokenn
     const tokenInfo = validarSessionJWT(token.split(" ")[1]);
 
     if (!tokenInfo.isValid) {
@@ -22,4 +22,4 @@ const revisarToken = (req, res, next) => {
     next();
 }
 
-module.exports = { revisarToken };
+export default revisarToken;

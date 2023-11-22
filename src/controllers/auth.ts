@@ -1,5 +1,5 @@
-const { usuarios } = require("../database/models/index");
-const { crearSessionJWT, validarSessionJWT } = require("../util/jwt");
+import { usuarios } from "../database/models/index";
+import { crearSessionJWT, validarSessionJWT } from "../util/jwt";
 
 // La contraseñas no están encriptadas
 async function login(correo_electronico, contrasena) {
@@ -22,8 +22,5 @@ async function login(correo_electronico, contrasena) {
 
     return { success: true, id, token, nombre, apellido_paterno };
 }
-
-
-
 
 module.exports = { login };

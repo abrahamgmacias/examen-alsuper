@@ -1,6 +1,6 @@
-const { consultarUsuarioPorId, consultarUsuarioPorNombre, eliminarUsuario, crearUsuario } = require('../controllers/usuarios');
-const { revisarToken } = require('../middleware/token');
-const express = require('express');
+import { consultarUsuarioPorId, consultarUsuarioPorNombre, eliminarUsuario, crearUsuario } from '../controllers/usuarios';
+import revisarToken from '../middleware/token';
+import express from "express";
 
 const router = express.Router();
 
@@ -92,8 +92,6 @@ router.delete('/eliminar/:id', revisarToken, async (req, res) => {
         message: "El usuario fue eliminado con éxito."
     });
 });
-
-
 
 
 module.exports = router;
