@@ -24,10 +24,9 @@ router.post('/login', async (req, res) => {
         });
     }
 
-    delete userData['success'];
     return res.status(200).json({
-        ...userData
+        userData: userData.userData
     });
 });
 
-module.exports = router;
+export default router;

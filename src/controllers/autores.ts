@@ -1,7 +1,15 @@
 const { autores, libros } = require("../database/models/index");
 
+export interface authorObj {
+    nombre: string,
+    segundo_nombre?: string | null | undefined,
+    apellido_paterno: string | null | undefined,
+    apellido_materno?: string | null | undefined,
+    fecha_de_nacimiento?: Date | null | undefined
+}
+
 // Consultar un autor por su id
-async function crearAutor(autorData) {
+export async function crearAutor(autorData: authorObj) {
     try {
         await autores.create({
             ...autorData,
@@ -19,7 +27,7 @@ async function crearAutor(autorData) {
 }
 
 // Consultar autor con id
-async function consultarAutorPorId(id) {
+export async function consultarAutorPorId(id: number) {
     let autor; 
     try {
         autor = await autores.findOne({
@@ -42,22 +50,18 @@ async function consultarAutorPorId(id) {
         return { success: false, error: "Consulta fallida. Revise los parametros de búsqueda."}
     }
 
-    agregarTotalLibros([autor]);
+    // agregarTotalLibros([autor]);
 
     return { success: true, autor };
 }
 
 // Consultar autor por nombre
-async function consultarAutorPorNombre(autorData) {
+export async function consultarAutorPorNombre(autorData: authorObj) {
     // Crear condiciones de nombre
-    const nameOptions = Object.keys(autorData).reduce((acc, key) => {
-        if (autorData[key] !== undefined) {
-          acc[key] = autorData[key];
-        }
-        return acc;
-    }, {});
-
-    console.log(nameOptions);
+    const nameOptions = Object.fromEntries(
+        Object.entries(autorData)
+          .filter(([_, value]) => value !== undefined && value !== null)
+    ) as Partial<authorObj>;
     
     let autor; 
     try {
@@ -81,12 +85,12 @@ async function consultarAutorPorNombre(autorData) {
         return { success: false, error: "Consulta fallida. Revise los parametros de búsqueda."}
     }
 
-    agregarTotalLibros([autor]);
+    // agregarTotalLibros([autor]);
 
     return { success: true, autor };
 }
 
-async function consultarTodosAutores() {
+export async function consultarTodosAutores() {
     let autoresTotal; 
     try {
         autoresTotal = await autores.findAll({
@@ -105,24 +109,24 @@ async function consultarTodosAutores() {
         return { success: false, error: "Consulta fallida. Revise los parametros de búsqueda."}
     }
 
-    agregarTotalLibros(autoresTotal)
+    // agregarTotalLibros(autoresTotal)
 
 
     return { success: true, autores: autoresTotal};
 }
 
 // Agregar parametro de total de libros
-function agregarTotalLibros(autoresArray) {
-    autoresArray.map((autorObject) => {
-        const autorValues = autorObject.dataValues;
-        const libros = autorValues.libros;
-        autorValues.total_de_libros = libros.length;
+// export function agregarTotalLibros(autoresArray: authorObj[]) {
+//     autoresArray.map((autorObject) => {
+//         const autorValues = autorObject.dataValues;
+//         const libros = autorValues.libros;
+//         autorValues.total_de_libros = libros.length;
         
-    });
-}
+//     });
+// }
 
 // Paranoid delete autor por su id
-async function eliminarAutor(id) {
+export async function eliminarAutor(id: number) {
     let autor;
     try {
         autor = await autores.destroy({
@@ -139,5 +143,3 @@ async function eliminarAutor(id) {
     
     return { success: true };
 }
-
-module.exports = { crearAutor, consultarAutorPorId, consultarAutorPorNombre, consultarTodosAutores, eliminarAutor };

@@ -1,7 +1,17 @@
-import usuarios from "../database/models/index";
+const usuarios = require("../database/models/index");
+
+export interface usuarioObj {
+    nombre: string | null | undefined, 
+    segundo_nombre?: string | null | undefined, 
+    apellido_paterno: string | null | undefined, 
+    apellido_materno?: string | null | undefined,  
+    fecha_de_nacimiento?: Date | null | undefined, 
+    correo_electronico?: string | null | undefined,  
+    contrasena?: string | null | undefined
+}
 
 // Consultar usuario por id
-export async function consultarUsuarioPorId(id) {
+export async function consultarUsuarioPorId(id: number) {
     let usuario; 
     try {
         usuario = await usuarios.findOne({
@@ -24,14 +34,12 @@ export async function consultarUsuarioPorId(id) {
 }
 
 // Consultar usuario por nombre
-export async function consultarUsuarioPorNombre(nombreData) {
+export async function consultarUsuarioPorNombre(nombreData: usuarioObj) {
     // Crear condiciones de nombres
-    const nameOptions = Object.keys(nombreData).reduce((acc, key) => {
-        if (nombreData[key] !== undefined) {
-          acc[key] = nombreData[key];
-        }
-        return acc;
-      }, {});
+    const nameOptions = Object.fromEntries(
+        Object.entries(nombreData)
+          .filter(([_, value]) => value !== undefined && value !== null)
+    ) as Partial<usuarioObj>;
 
     let usuario; 
     try {
@@ -54,7 +62,7 @@ export async function consultarUsuarioPorNombre(nombreData) {
     return { success: true, usuario };
 }
 
-export async function eliminarUsuario(id) {
+export async function eliminarUsuario(id: string) {
     let usuario;
     try {
         usuario = await usuarios.destroy({
@@ -72,7 +80,7 @@ export async function eliminarUsuario(id) {
     return { success: true };
 }
 
-export async function crearUsuario(userData) {
+export async function crearUsuario(userData: usuarioObj) {
     try {
         await usuarios.create({
             ...userData,

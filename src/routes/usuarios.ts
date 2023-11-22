@@ -35,7 +35,7 @@ router.get('/:id', revisarToken, async (req, res) => {
         return res.status(400).json({ message: "Id inexistente o inválido." });
     }
 
-    const usuarioObject = await consultarUsuarioPorId(id);
+    const usuarioObject = await consultarUsuarioPorId(parseInt(id));
 
     if (!usuarioObject.success) {
         return res.status(500).send({
@@ -94,4 +94,4 @@ router.delete('/eliminar/:id', revisarToken, async (req, res) => {
 });
 
 
-module.exports = router;
+export default router;

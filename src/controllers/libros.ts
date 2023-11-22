@@ -1,6 +1,14 @@
-const { libros } = require("../database/models/index");
+const libros = require("../database/models/index");
 
-async function crearLibro(bookData) {
+export interface bookObj {
+    nombre: string | null | undefined, 
+    fecha_de_publicacion?: string | null | undefined, 
+    autor_id: number | null | undefined, 
+    editorial?: string | null | undefined
+}
+
+
+export async function crearLibro(bookData: bookObj) {
     try {
         await libros.create({
             ...bookData,
@@ -17,7 +25,7 @@ async function crearLibro(bookData) {
     return { success: true };
 }
 
-async function eliminarLibro(id) {
+export async function eliminarLibro(id: number) {
     try {
         await libros.destroy({
             where: { id }
@@ -31,7 +39,7 @@ async function eliminarLibro(id) {
 }
 
 // Consultar libro por id
-async function consultarLibroPorId(id) {
+export async function consultarLibroPorId(id: number) {
     let libro; 
     try {
         libro = await libros.findOne({
@@ -54,7 +62,7 @@ async function consultarLibroPorId(id) {
 }
 
 // Consultar libro por nombre
-async function consultarLibroPorNombre(nombre) {
+export async function consultarLibroPorNombre(nombre: string) {
     let libro; 
     try {
         libro = await libros.findOne({
@@ -75,5 +83,3 @@ async function consultarLibroPorNombre(nombre) {
 
     return { success: true, libro };
 }
-
-module.exports = { crearLibro, eliminarLibro, consultarLibroPorId, consultarLibroPorNombre };

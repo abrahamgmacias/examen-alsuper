@@ -1,4 +1,4 @@
-const { crearAutor, consultarAutorPorId, consultarAutorPorNombre, consultarTodosAutores, eliminarAutor } = require('../controllers/autores');
+import { crearAutor, consultarAutorPorId, consultarAutorPorNombre, consultarTodosAutores, eliminarAutor } from '../controllers/autores';
 const { revisarToken } = require('../middleware/token');
 
 import express from "express";
@@ -51,7 +51,7 @@ router.get('/:id', revisarToken, async (req, res) => {
         return res.status(400).json({ message: "Id inexistente o inválido." });
     }
 
-    const autorObject = await consultarAutorPorId(id);
+    const autorObject = await consultarAutorPorId(parseInt(id));
 
     if (!autorObject.success) {
         return res.status(500).send({
@@ -96,7 +96,7 @@ router.delete('/eliminar/:id', revisarToken, async (req, res) => {
         return res.status(400).json({ message: "Id inexistente o inválido." });
     }
 
-    const autorResult = await eliminarAutor(id);
+    const autorResult = await eliminarAutor(parseInt(id));
 
     if (!autorResult.success) {
         return res.status(500).send({
@@ -111,4 +111,4 @@ router.delete('/eliminar/:id', revisarToken, async (req, res) => {
 
 
 
-module.exports = router;
+export default router;

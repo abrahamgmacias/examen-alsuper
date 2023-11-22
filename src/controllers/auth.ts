@@ -1,9 +1,9 @@
-import { usuarios } from "../database/models/index";
+const usuarios = require("../database/models/index");
 import { crearSessionJWT, validarSessionJWT } from "../util/jwt";
 
 // La contraseñas no están encriptadas
-async function login(correo_electronico, contrasena) {
-    userData = await usuarios.findOne({
+export async function login(correo_electronico: string, contrasena: string) {
+    const userData = await usuarios.findOne({
         where: { correo_electronico }
     });
 
@@ -20,7 +20,5 @@ async function login(correo_electronico, contrasena) {
 
     const { id, nombre, apellido_paterno } = userData;
 
-    return { success: true, id, token, nombre, apellido_paterno };
+    return { success: true, id, userData: { token, nombre, apellido_paterno } };
 }
-
-module.exports = { login };
