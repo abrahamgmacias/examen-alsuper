@@ -15,16 +15,17 @@ router.post('/login', async (req, res) => {
     }
 
     // Consultar informacion de usuario
-    const userData = await login(correo, contrasena);
+    const userObject = await login(correo, contrasena);
     
     // No se encontró usuario o los datos son incorrectos
-    if (!userData.success) {
+    if (!userObject.success) {
         return res.status(401).json({
             message: "Credenciales no válidas."
         });
     }
 
-    delete userData['success'];
+    const { userData } = userObject;
+
     return res.status(200).json({
         ...userData
     });

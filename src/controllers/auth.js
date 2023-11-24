@@ -7,6 +7,7 @@ async function login(correo_electronico, contrasena) {
         where: { correo_electronico }
     });
 
+
     // Validar si no existe el usuario o si la contraseña es incorrecta
     if (userData === null || !(userData.dataValues.contrasena === contrasena)) {
         return { success: false, token: null };
@@ -15,12 +16,12 @@ async function login(correo_electronico, contrasena) {
     // Crear token de sesión
     const token = crearSessionJWT({
         id: userData.dataValues.id,
-        name: userData.dataValues.name
+        name: userData.dataValues.nombre
     });
 
     const { id, nombre, apellido_paterno } = userData;
 
-    return { success: true, id, token, nombre, apellido_paterno };
+    return { success: true, userData: { id, token, nombre, apellido_paterno }};
 }
 
 
