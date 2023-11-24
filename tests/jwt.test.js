@@ -29,6 +29,19 @@ describe("Creates JWT session", () => {
         expect(decodedToken.name).to.equal("Abraham");
     });
 
+    it("should return isValid: false for an invalid JWT", () => {
+        // Arrange
+        const invalidToken = "something_token";
+
+        // Act
+        const result = validarSessionJWT(invalidToken);
+
+        // Assert
+        expect(result).to.be.an("object");
+        expect(result.isValid).to.be.false;
+        expect(result.payload).to.be.undefined;
+    });
+
     after(() => {
         delete process.env.JWT_SECRET;
     });
