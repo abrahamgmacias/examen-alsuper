@@ -1,12 +1,5 @@
 const { autores, libros } = require("../database/models/index");
-
-export interface authorObj {
-    nombre: string,
-    segundo_nombre?: string | null | undefined,
-    apellido_paterno: string | null | undefined,
-    apellido_materno?: string | null | undefined,
-    fecha_de_nacimiento?: Date | null | undefined
-}
+import { authorObj } from "../util/objects";
 
 // Consultar un autor por su id
 export async function crearAutor(autorData: authorObj) {

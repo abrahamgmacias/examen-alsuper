@@ -1,14 +1,5 @@
-const usuarios = require("../database/models/index");
-
-export interface usuarioObj {
-    nombre: string | null | undefined, 
-    segundo_nombre?: string | null | undefined, 
-    apellido_paterno: string | null | undefined, 
-    apellido_materno?: string | null | undefined,  
-    fecha_de_nacimiento?: Date | null | undefined, 
-    correo_electronico?: string | null | undefined,  
-    contrasena?: string | null | undefined
-}
+const { usuarios } = require("../database/models/index");
+import { usuarioObj } from "../util/objects";
 
 // Consultar usuario por id
 export async function consultarUsuarioPorId(id: number) {

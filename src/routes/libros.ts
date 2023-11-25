@@ -5,7 +5,7 @@ import express from 'express';
 const router = express.Router();
 
 // Consultar libro por su nombre
-router.post('/', revisarToken, async (req, res) => {
+router.post('/', revisarToken(), async (req, res) => {
     const { nombre } = req.body;
 
     // Validar nombre
@@ -28,7 +28,7 @@ router.post('/', revisarToken, async (req, res) => {
 
 
 // Consultar un libro por su id
-router.get('/:id', revisarToken, async (req, res) => {
+router.get('/:id', revisarToken(), async (req, res) => {
     const { id } = req.params;
 
     // Validar id type
@@ -48,7 +48,7 @@ router.get('/:id', revisarToken, async (req, res) => {
 });
 
 // Crear un libro
-router.post('/crear', revisarToken, async (req, res) => {
+router.post('/crear', revisarToken(), async (req, res) => {
     const { nombre, fecha_de_publicacion, autor_id, editorial } = req.body;
 
     // Valores not null
@@ -72,7 +72,7 @@ router.post('/crear', revisarToken, async (req, res) => {
 });
 
 // Paranoid delete
-router.delete('/eliminar/:id', revisarToken, async (req, res) => {
+router.delete('/eliminar/:id', revisarToken(), async (req, res) => {
     const { id } = req.params;
 
     // Validar id type

@@ -5,7 +5,7 @@ import express from "express";
 const router = express.Router();
 
 // Consultar autor por su nombre
-router.post('/', revisarToken, async (req, res) => {
+router.post('/', async (req, res) => {
     const { nombre, segundo_nombre, apellido_paterno, apellido_materno } = req.body;
 
     // Validar nombre
@@ -27,7 +27,7 @@ router.post('/', revisarToken, async (req, res) => {
 });
 
 // Consulta a todos los autores, sus libros y la cantidad de libros
-router.get('/todos', revisarToken, async (req, res) => {
+router.get('/todos', revisarToken(), async (req, res) => {
     const autoresObject = await consultarTodosAutores();
 
     console.log("shit")
@@ -42,8 +42,8 @@ router.get('/todos', revisarToken, async (req, res) => {
 });
 
 // Consultar autor y sus libros por su id 
-router.get('/:id', revisarToken, async (req, res) => {
-    const { id } = req.params;
+router.get('/:id', revisarToken(), async (req, res) => {
+    const { id } = req.params as {id: string};
 
     // Validar id type
     if (!id || Number.isNaN(parseInt(id))) {
@@ -62,7 +62,7 @@ router.get('/:id', revisarToken, async (req, res) => {
 });
 
 // Crear un autor
-router.post('/crear', revisarToken, async (req, res) => {
+router.post('/crear', revisarToken(), async (req, res) => {
     const { nombre, segundo_nombre, apellido_paterno, apellido_materno, fecha_de_nacimiento } = req.body;
     
     // Valores not null
@@ -87,7 +87,7 @@ router.post('/crear', revisarToken, async (req, res) => {
 
 
 // Paranoid delete autor por su id
-router.delete('/eliminar/:id', revisarToken, async (req, res) => {
+router.delete('/eliminar/:id', revisarToken(), async (req, res) => {
     const { id } = req.params;
 
     // Validar id type

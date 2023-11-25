@@ -3,11 +3,11 @@ import cors from "cors";
 require('dotenv').config();
 
 // Routers
-const navegacionRouter = require('./routes/navegacion');
-const usuariosRouter = require('./routes/usuarios');
-const autoresRouter = require('./routes/autores');
-const librosRouter = require('./routes/libros');
-const authRouter = require('./routes/auth');
+import navegacionRouter  from './routes/navegacion';
+import usuariosRouter from './routes/usuarios';
+import autoresRouter from './routes/autores';
+import librosRouter from './routes/libros';
+import authRouter from './routes/auth';
 
 // App instantiation
 const app = express();

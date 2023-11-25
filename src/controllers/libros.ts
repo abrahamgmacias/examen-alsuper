@@ -1,11 +1,5 @@
-const libros = require("../database/models/index");
-
-export interface bookObj {
-    nombre: string | null | undefined, 
-    fecha_de_publicacion?: string | null | undefined, 
-    autor_id: number | null | undefined, 
-    editorial?: string | null | undefined
-}
+const { libros } = require("../database/models/index");
+import { bookObj } from "../util/objects";
 
 
 export async function crearLibro(bookData: bookObj) {
