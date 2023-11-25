@@ -1,11 +1,11 @@
-const { consultarUsuarioPorId, consultarUsuarioPorNombre, eliminarUsuario, crearUsuario } = require('../controllers/usuarios');
-const { revisarToken } = require('../middleware/token');
-const express = require('express');
+import { consultarUsuarioPorId, consultarUsuarioPorNombre, eliminarUsuario, crearUsuario } from '../controllers/usuarios';
+import revisarToken from '../middleware/token';
+import express from "express";
 
 const router = express.Router();
 
 // Consultar usuario por su nombre
-router.post('/', revisarToken, async (req, res) => {
+router.post('/', revisarToken(), async (req, res) => {
     const { nombre, segundo_nombre, apellido_paterno, apellido_materno } = req.body;
 
     // Validar nombre
@@ -27,7 +27,7 @@ router.post('/', revisarToken, async (req, res) => {
 });
 
 // Consultar usuario por su id
-router.get('/:id', revisarToken, async (req, res) => {
+router.get('/:id', revisarToken(), async (req, res) => {
     const { id } = req.params;
 
     // Validar id type
@@ -35,7 +35,7 @@ router.get('/:id', revisarToken, async (req, res) => {
         return res.status(400).json({ message: "Id inexistente o inválido." });
     }
 
-    const usuarioObject = await consultarUsuarioPorId(id);
+    const usuarioObject = await consultarUsuarioPorId(parseInt(id));
 
     if (!usuarioObject.success) {
         return res.status(500).send({
@@ -48,7 +48,7 @@ router.get('/:id', revisarToken, async (req, res) => {
 
 // Crear usuario en base a parametros --ignora validaciones de contraseña y correo
 // Las contraseñas no están encriptadas
-router.post('/crear', revisarToken, async (req, res) => {
+router.post('/crear', revisarToken(), async (req, res) => {
     const { nombre, segundo_nombre, apellido_paterno, apellido_materno, fecha_de_nacimiento, correo_electronico, contrasena } = req.body;
     
     // Valores not null
@@ -72,7 +72,7 @@ router.post('/crear', revisarToken, async (req, res) => {
 });
 
 // Eliminar usuario por su id
-router.delete('/eliminar/:id', revisarToken, async (req, res) => {
+router.delete('/eliminar/:id', revisarToken(), async (req, res) => {
     const { id } = req.params;
 
     // Validar id type
@@ -94,6 +94,4 @@ router.delete('/eliminar/:id', revisarToken, async (req, res) => {
 });
 
 
-
-
-module.exports = router;
+export default router;

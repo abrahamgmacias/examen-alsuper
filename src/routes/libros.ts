@@ -1,11 +1,11 @@
-const { crearLibro, eliminarLibro, consultarLibroPorNombre, consultarLibroPorId } = require('../controllers/libros');
-const { revisarToken } = require('../middleware/token');
-const express = require('express');
+import { crearLibro, eliminarLibro, consultarLibroPorNombre, consultarLibroPorId } from '../controllers/libros';
+import revisarToken from '../middleware/token';
+import express from 'express';
 
 const router = express.Router();
 
 // Consultar libro por su nombre
-router.post('/', revisarToken, async (req, res) => {
+router.post('/', revisarToken(), async (req, res) => {
     const { nombre } = req.body;
 
     // Validar nombre
@@ -28,7 +28,7 @@ router.post('/', revisarToken, async (req, res) => {
 
 
 // Consultar un libro por su id
-router.get('/:id', revisarToken, async (req, res) => {
+router.get('/:id', revisarToken(), async (req, res) => {
     const { id } = req.params;
 
     // Validar id type
@@ -36,7 +36,7 @@ router.get('/:id', revisarToken, async (req, res) => {
         return res.status(400).json({ message: "Id inexistente o inválido." });
     }
 
-    const libroObject = await consultarLibroPorId(id);
+    const libroObject = await consultarLibroPorId(parseInt(id));
 
     if (!libroObject.success) {
         return res.status(500).send({
@@ -48,7 +48,7 @@ router.get('/:id', revisarToken, async (req, res) => {
 });
 
 // Crear un libro
-router.post('/crear', revisarToken, async (req, res) => {
+router.post('/crear', revisarToken(), async (req, res) => {
     const { nombre, fecha_de_publicacion, autor_id, editorial } = req.body;
 
     // Valores not null
@@ -72,7 +72,7 @@ router.post('/crear', revisarToken, async (req, res) => {
 });
 
 // Paranoid delete
-router.delete('/eliminar/:id', revisarToken, async (req, res) => {
+router.delete('/eliminar/:id', revisarToken(), async (req, res) => {
     const { id } = req.params;
 
     // Validar id type
@@ -80,7 +80,7 @@ router.delete('/eliminar/:id', revisarToken, async (req, res) => {
         return res.status(400).json({ message: "Id inexistente o inválido." });
     }
 
-    const libroResult = await eliminarLibro(id);
+    const libroResult = await eliminarLibro(parseInt(id));
 
     if (!libroResult.success) {
         return res.status(500).send({
@@ -93,4 +93,4 @@ router.delete('/eliminar/:id', revisarToken, async (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

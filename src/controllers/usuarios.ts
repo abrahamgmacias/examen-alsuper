@@ -1,7 +1,8 @@
 const { usuarios } = require("../database/models/index");
+import { usuarioObj } from "../util/objects";
 
 // Consultar usuario por id
-async function consultarUsuarioPorId(id) {
+export async function consultarUsuarioPorId(id: number) {
     let usuario; 
     try {
         usuario = await usuarios.findOne({
@@ -24,14 +25,12 @@ async function consultarUsuarioPorId(id) {
 }
 
 // Consultar usuario por nombre
-async function consultarUsuarioPorNombre(nombreData) {
+export async function consultarUsuarioPorNombre(nombreData: usuarioObj) {
     // Crear condiciones de nombres
-    const nameOptions = Object.keys(nombreData).reduce((acc, key) => {
-        if (nombreData[key] !== undefined) {
-          acc[key] = nombreData[key];
-        }
-        return acc;
-      }, {});
+    const nameOptions = Object.fromEntries(
+        Object.entries(nombreData)
+          .filter(([_, value]) => value !== undefined && value !== null)
+    ) as Partial<usuarioObj>;
 
     let usuario; 
     try {
@@ -54,7 +53,7 @@ async function consultarUsuarioPorNombre(nombreData) {
     return { success: true, usuario };
 }
 
-async function eliminarUsuario(id) {
+export async function eliminarUsuario(id: string) {
     let usuario;
     try {
         usuario = await usuarios.destroy({
@@ -72,7 +71,7 @@ async function eliminarUsuario(id) {
     return { success: true };
 }
 
-async function crearUsuario(userData) {
+export async function crearUsuario(userData: usuarioObj) {
     try {
         await usuarios.create({
             ...userData,
@@ -88,6 +87,3 @@ async function crearUsuario(userData) {
 
     return { success: true };
 }
-
-
-module.exports = { consultarUsuarioPorNombre, consultarUsuarioPorId, eliminarUsuario, crearUsuario }

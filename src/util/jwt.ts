@@ -1,20 +1,20 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 const loginAudience = "session";
 
 // Crear un token de inicio de sesión
-function crearSessionJWT(payload) {
-    return jwt.sign(payload, process.env.JWT_SECRET, {
+export function crearSessionJWT(payload: object) {
+    return jwt.sign(payload, process.env.JWT_SECRET!, {
         audience: loginAudience
     });
 }
 
 // Validar el token
-function validarSessionJWT(token) {
+export function validarSessionJWT(token: string) {
     try {
         return {
             isValid: true,
-            payload: jwt.verify(token, process.env.JWT_SECRET, {
+            payload: jwt.verify(token, process.env.JWT_SECRET!, {
                 audience: loginAudience,
                 algorithms: ["HS256"]
             })
@@ -23,5 +23,3 @@ function validarSessionJWT(token) {
         return { isValid: false, payload: undefined }
     }
 }
-
-module.exports = { crearSessionJWT, validarSessionJWT };
