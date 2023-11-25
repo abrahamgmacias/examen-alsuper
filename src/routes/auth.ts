@@ -24,8 +24,10 @@ router.post('/login', async (req, res) => {
         });
     }
 
+    const { userData } = userObject;
+
     return res.status(200).json({
-        userData: userData.userData
+        userData: userData
     });
 });
 
